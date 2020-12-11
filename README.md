@@ -14,7 +14,7 @@ https://www.glassdoor.co.uk/Job/remote-lead-data-engineer-jobs-SRCH_IL.0,6_IS110
 
 Basic example for using PostGIS geometric functions. Seemed reasonable to go for ST_Contains doing a simple OR.
 
-[link for solution](sql/solution6.sql)
+[check the solution here...](sql/solution6.sql)
 
 - just a note ... this is the kind of thing I guess Realyse is doing with PostGIS : https://stackoverflow.com/questions/37233780/st-contains-find-all-road-that-are-within-the-scope
 
