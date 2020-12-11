@@ -14,6 +14,7 @@ This is the solutions set for the tech challenge for the positin of Lead Data En
 ### solution for question #6
 
 - A basic example for using PostGIS geometric functions. Seemed reasonable to go for ST_Contains doing a simple OR as the proposal is limited to two points only.
+- PostgreSQL and PostGIS extension were installed locally and the solution can be presented through psql command line.
 - This is the kind of thing I guess Realyse is doing with PostGIS : https://stackoverflow.com/questions/37233780/st-contains-find-all-road-that-are-within-the-scope
 - REF : https://postgis.net/docs/ST_Contains.html
 
