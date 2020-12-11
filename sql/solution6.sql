@@ -1,0 +1,1 @@
+select ST_Contains(ST_GeometryFromText('POLYGON((10 11,10 9,11 9,14 9,14 10,10 11))'),ST_GeometryFromText('POINT(9 3)')) or ST_Contains(ST_GeometryFromText('POLYGON((10 11,10 9,11 9,14 9,14 10,10 11))'),ST_GeometryFromText('POINT(12 10)'));
