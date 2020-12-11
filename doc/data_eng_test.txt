@@ -1,0 +1,205 @@
+With the 7 questions below, you can use either PostgreSQL or Spark.
+You are free to choose which questions you want to answer using PostgreSQL/Postgis or Spark.
+Preferably we would like around half of the questions to be done in PostgreSQL/Postgis and the remaining with Spark.
+NB: Spark v2.*.
+NNB: Spark with Scala is preferred over PySpark.
+
+1) This test is about "carrying over values" for missing dates (postcode/indicator_category) to create full monthly time series.
+Example, given a table:
+create table interview.indicator_data(
+  postcode text, 
+  month_ts date, 
+  indicator_cat integer,
+  measure double precision);
+
+INSERT INTO interview.indicator_data 
+VALUES (
+('sw5', '2017-07-01', 2, 99212.231),
+('sw5', '2018-02-01', 2, 232.215),
+('sw5', '2017-11-01', 3, 1523.2576),
+('sw5', '2017-12-01', 3, 152.16),
+('sw5', '2018-02-01', 3, 142.981),
+('sw5', '2018-07-01', 3 , 142.1361),
+('sw5 9', '2018-03-01', 2, 821.21),
+('sw5 9', '2018-02-01', 2, 1182.19);
+
+ postcode |  month_ts  | indicator_cat |  measure  
+----------+------------+---------------+-----------
+ NW3      | 2016-06-01 |             2 |   224.946
+ NW3      | 2016-08-01 |             2 |   132.285
+
+
+the expected result will be:
+ postcode |  month_ts  | indicator_cat |  measure  
+----------+------------+---------------+-----------
+ NW3      | 2016-06-01 |             2 |   224.946
+ NW3      | 2016-07-01 |             2 |   224.946
+ NW3      | 2016-08-01 |             2 |   132.285
+
+
+Please write a query that given the below input returns the expected output:
+INPUT:
+ postcode |  month_ts  | indicator_cat |  measure  
+----------+------------+---------------+-----------
+ sw5      | 2017-07-01 |             2 | 99212.231
+ sw5      | 2018-02-01 |             2 |   232.215
+ sw5      | 2017-11-01 |             3 | 1523.2576
+ sw5      | 2017-12-01 |             3 |    152.16
+ sw5      | 2018-02-01 |             3 |   142.981
+ sw5      | 2018-07-01 |             3 |  142.1361
+ sw5 9    | 2018-03-01 |             2 |    821.21
+ sw5 9    | 2018-02-01 |             2 |   1182.19
+
+EXPECTED OUTPUT:
+ postcode |  month_ts  | indicator_cat |  measure  
+----------+------------+---------------+-----------
+ sw5      | 2017-07-01 |             2 | 99212.231
+ sw5      | 2017-08-01 |             2 | 99212.231
+ sw5      | 2017-09-01 |             2 | 99212.231
+ sw5      | 2017-10-01 |             2 | 99212.231
+ sw5      | 2017-11-01 |             2 | 99212.231
+ sw5      | 2017-12-01 |             2 | 99212.231
+ sw5      | 2018-01-01 |             2 | 99212.231
+ sw5      | 2018-02-01 |             2 |   232.215
+ sw5      | 2017-11-01 |             3 | 1523.2576
+ sw5      | 2017-12-01 |             3 |    152.16
+ sw5      | 2018-01-01 |             3 |    152.16
+ sw5      | 2018-02-01 |             3 |   142.981
+ sw5      | 2018-03-01 |             3 |   142.981
+ sw5      | 2018-04-01 |             3 |   142.981
+ sw5      | 2018-05-01 |             3 |   142.981
+ sw5      | 2018-06-01 |             3 |   142.981
+ sw5      | 2018-07-01 |             3 |  142.1361
+ sw5 9    | 2018-02-01 |             2 |   1182.19
+ sw5 9    | 2018-03-01 |             2 |    821.21
+
+
+
+2) Given the following strings:
+" John 123123~@: DOE,,"
+" Doe JANE "
+How would you transform them into the corresponding values below? (output with only alphabetical letters and uppercase):
+"JOHN DOE"
+"JANE DOE"
+
+
+3) Given a table like:
+ create table indicator_data(
+  district text, 
+  area text, 
+  measure integer);
+
+with the following values:
+ sector | district | area | measure 
+--------+----------+------+---------
+ sw5 9  | sw5      | sw   |       8
+ sw5 9  | sw5      | sw   |       1
+ sw1 1  | sw1      | sw   |      11
+ sw1 2  | sw1      | sw   |      10
+ sw5 8  | sw5      | sw   |       6
+
+
+How would you query it to get the output below, considering for the average only measure > 5 without using a "UNION/ALL"?
+    zone   |  avg         
+-----------+-------
+ sw       |  8.75
+ sw1      | 10.50
+ sw5      |  7.00
+ sw1 1    | 11.00
+ sw1 2    | 10.00
+ sw5 8    |  6.00
+ sw5 9    |  8.00
+?
+
+
+
+4) Given 3 tables with the same structure:
+TABLE A
+ id | price         
+----+-------
+ 1  | 1000
+ 2  | 1200
+ 3  | 1600
+ 4  | 2100
+ 5  | 1200
+ 6  | ....
+TABLE B
+ id | bedrooms         
+----+----------
+ 1  | 1
+ 2  | 5
+ 4  | 2
+ 6  | 2
+ 8  | ....
+TABLE C
+ id | bedrooms         
+----+----------
+ 1  | 2
+ 3  | 4
+ 4  | 3
+ 5  | ....
+Table A has an "id" column (bigint) and a "price" column (integer).
+Table B & C have similar content, "id" column (bigint) and "bedrooms" (smallint).
+We have to add to the table A the bedrooms joining the "id" column from the respective tables in this way:
+First look for bedrooms in B based on the "id". If the "id" is not there, look in the table C.
+If the "id" is not found in B & C the record in A is excluded.
+All the tables have a number of records of the order 15M/30M.
+
+How would you get the final table:
+ id | price | bedrooms       
+----+-------+----------
+ 1  | 1000  | 1
+....etc
+?
+
+
+
+5) - Given the below table with property_id (integer) and distance in metres (integer) to corresponding place_type (text):
+Table: property_poi_distances
+ property_id | place_type | distance
+-------------+------------+----------
+           1 | Hospital   |      100
+           1 | Hospital   |      200
+           1 | Restaurant |     1000
+           1 | Restaurant |     2500
+           1 | Cafe       |     2000
+           2 | Hospital   |     5000
+           2 | Restaurant |     2500
+           2 | Restaurant |     4000
+           2 | Cafe       |     1000
+           3 | Hospital   |    10000
+           3 | Restaurant |     9000
+
+Write a query to return the following:
+-- property_id, 
+-- Closest hospital,
+-- Closest restaurant or cafe,
+-- Number of restaurants or cafes within 3km,
+-- Number of restaurants or cafes within 5km
+i.e.
+ property_id | closest_hospital | closest_restaurant_cafe | number_restaurant_3k | number_restaurant_5k
+-------------+------------------+-------------------------+----------------------+----------------------
+           1 |              100 |                    1000 |                    3 |                    3
+           2 |             5000 |                    1000 |                    2 |                    3
+           3 |            10000 |                    9000 |                    0 |                    0
+
+
+
+6) Given a cartesian polygon with the following (x,y) coordinates:
+(10, 11), (10, 9), (11, 9), (14, 9), (14, 10), (10, 11)
+write a query that given the following input (two points):
+(9,3)
+(12,10)
+returns true/false if one of the points above fall into the polygon.
+
+
+
+7) Given two files:
+File1.csv (number of records 200M)
+Id (bigint)
+Number of Sales (int)
+File2.csv (number of records 300M)
+Id (bigint)
+Number of Listings (int)
+
+How would you join the two files optimally by `Id`?
