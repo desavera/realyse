@@ -20,7 +20,7 @@ This is the solutions set for the tech challenge for the positin of Lead Data En
 
 ### solution for question #3
 
-- A very challenging use case where we will need to do a hierarchical aggregation using Spark Dataframesin Scala.
+- A very challenging use case where we will need to do a hierarchical aggregation using Spark Dataframes in Scala.
 - REF : https://stackoverflow.com/questions/52508872/how-to-recursively-aggregate-treelikehierarchical-data-using-spark
 
 ### solution for question #4
