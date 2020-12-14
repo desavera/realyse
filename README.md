@@ -47,3 +47,4 @@ REF : https://postgis.net/docs/ST_Distance.html
 
  - Not a single answer ... and absolutely not trivial but I have a strategy to be proposed using Delta Lake or Spark 3 merges.
  
+[check the solution here...](doc/solution7.txt)
