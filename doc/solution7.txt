@@ -1,0 +1,9 @@
+
+The goal on this proposal is to avoid the need to either apply a full cartesian product on a JOIN between the two files or using particular and not guaranteed optimizied sorting approaches in order to merge the two contents which is the final goal of the problem.
+
+For that we are going to use Delta Lake Merge functionality :
+
+https://docs.delta.io/0.4.0/delta-update.html
+
+which will basically give us an optimized merge implementation (this is Databricks experts in action) and where we have the MATCH we shall create a new entry for either dataframe so that we end up with a merged output.
+
