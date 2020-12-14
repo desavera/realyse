@@ -19,6 +19,12 @@ This is the solutions set for the tech challenge for the positin of Lead Data En
 
 [check the solution here...](src/NamesExtractor.scala)
 
+
+### solution for question #3
+
+- A very challenging use case where we will need to do a hierarchical aggregation using Spark Dataframes.
+- REF : https://stackoverflow.com/questions/52508872/how-to-recursively-aggregate-treelikehierarchical-data-using-spark
+
 ### solution for question #6
 
 - A basic example for using PostGIS geometric functions. Seemed reasonable to go for ST_Contains doing a simple OR as the proposal is limited to two points only.
