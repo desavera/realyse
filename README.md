@@ -3,13 +3,21 @@ Realyse tech challenge repo
 
 This is the solutions set for the tech challenge for the positin of Lead Data Engineer at Realyse.
 
-## Delivery 1 on 13/12/2020 :
 
 ### solution for question #1
 
 - A classic scenario of carrying over from the last non empty value in a Dataframe. Spark scala is here the best approach.
 - A docker container with Spark 2.4 was configured and is triggered by a shell script through docker run.
 - REF : https://stackoverflow.com/questions/33380678/how-to-carry-over-last-non-empty-value-to-subsequent-rows-using-spark-dataframe
+
+
+### solution for question #2
+
+- A very interesting challenge for Regex.
+- A Jupyter Notebook was configured and will be used for the presenting the solution : https://hub.docker.com/r/aghorbani/spark-jupyter-scala/
+- REF : https://regex101.com/
+
+[check the solution here...](src/NamesExtractor.scala)
 
 ### solution for question #6
 
