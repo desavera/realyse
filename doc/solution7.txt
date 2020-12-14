@@ -1,9 +1,9 @@
 
-The goal on this proposal is to avoid the need to either apply a full cartesian product on a JOIN between the two files or using particular and not guaranteed optimizied sorting approaches in order to merge the two contents which is the final goal of the problem.
-
-For that we are going to use Delta Lake Merge functionality :
+The goal on this proposal is to avoid the need to avoid a full cartesian product on a JOIN between the two files or some unavoidable sorting approaches in order to merge the two contents which is the final goal of the problem. There are particular sorting approaches we could go for like MERGE SORT but instead I propose taking advantage of consolidated expertise in the filed through Delta Lake :
 
 https://docs.delta.io/0.4.0/delta-update.html
 
 which will basically give us an optimized merge implementation (this is Databricks experts in action) and where we have the MATCH we shall create a new entry for either dataframe so that we end up with a merged output.
+
+This would be the most optimum approach I can think of for now and without risking myself to take home made attempts to some well known and already solved problem.
 
